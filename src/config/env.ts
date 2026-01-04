@@ -1,20 +1,13 @@
-import 'dotenv/config'
-
-// Helper function to get environment variable values with a fallback if not set or empty
-function getEnv(variable: string, fallback: string): string {
-  const value = process.env[variable];
-  return value && value.trim().length > 0 ? value : fallback;
-}
-
-const isProduction = process.env.NODE_ENV === 'production';
-const fallbackUri = "mongodb://localhost:27017/digital_cards";
-const MONGO_URI = isProduction ? getEnv("MONGO_URI", fallbackUri) : getEnv("LOCAL_MONGO_URI", fallbackUri);
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const ENV = {
-  PORT: Number(getEnv("PORT", "5000")),
-  MONGO_URI,
-  ADMIN_EMAIL: getEnv("ADMIN_EMAIL", ""),
-  JWT_SECRET: getEnv("JWT_SECRET", ""),
-  JWT_EXPIRE_TIME: getEnv("JWT_EXPIRE_TIME", "")
-
-}
+  port: Number.parseInt(process.env.PORT as string, 10) || 5000,
+  mongoURI: process.env.MONGO_URI || 'mongodb://localhost:27017/digitalcards',
+  rateLimit: {
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+  },
+  nodeEnv: (process.env.NODE_ENV as string) || 'development',
+  apiPrefix: process.env.API_PREFIX || '/api',
+};

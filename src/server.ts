@@ -1,15 +1,27 @@
-import app from "./app";
-import mongoose from "mongoose";
-import { ENV } from "./config/env";
+import mongoose from 'mongoose';
+import app from './app';
+import { ENV } from './config/env';
 
+export const startServer = async () => {
+  try {
+    await mongoose.connect(ENV.mongoURI);
+    console.log('MongoDB connected');
+    
+    const server = app.listen(ENV.port);
+    console.log(`Server running at http://localhost:${ENV.port}`);
+    
+    server.on('error', (err: Error) => {
+      console.error('Server error:', err);
+    });
+    
+    return server;
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  }
+};
 
-const mongoUri = ENV.MONGO_URI || "mongodb://localhost:27017/bookadzone";
-mongoose
-  .connect(mongoUri)
-  .then(() => console.log("MongoDB connected to:", mongoUri))
-  .catch((err) => console.error("MongoDB connection error:", err));
-
-const PORT = ENV.PORT;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Start server if this file is run directly
+if (require.main === module) {
+  startServer();
+}
