@@ -1,12 +1,9 @@
-import { Express } from "express";
+import { Express } from 'express';
+import faqRoutes from './faq.routes';
 
-// Routes >
-import authenticationRoutes from "./authenticationRoutes";
-import faqRoutes from "./faqRoutes";
-import { authenticate } from "../middleware/authentication";
+const BASE_URL = '/api/v1';
 
-export default function registerRoutes(app: Express) {
-  app.use("/api/v1/auth", authenticationRoutes);
-  app.use("/api/v1/faqs", authenticate, faqRoutes);
-}
-
+export const registerRoutes = (app: Express): void => {
+  // FAQ Routes
+  app.use(`${BASE_URL}/faqs`, faqRoutes);
+};
