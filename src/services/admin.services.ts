@@ -34,4 +34,16 @@ export class AdminService extends BaseService<IAdmin>{
     }
     }
   }
+  async getAllUsers(page:number=1,limit:number=10){
+    return await this.adminRepository.getAllUser(page,limit);
+  }
+  async getUserById(id:string){
+    return await this.adminRepository.getUserById(id);
+  }
+  async updateUser(id:string,accountStatus:string){
+    return await this.adminRepository.updateUser(id,accountStatus);
+  }
+  async deleteUser(id:string){
+    return await this.adminRepository.deleteUser(id);
+  }
 }
