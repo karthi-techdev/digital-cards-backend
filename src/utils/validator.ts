@@ -37,6 +37,7 @@ export const validateFaq = (data: any) => {
 
   return true;
 };
+
 export const validateAdmin=(data:any)=>{
   const errors=[];
   if (!data.name) {
@@ -49,16 +50,13 @@ export const validateAdmin=(data:any)=>{
 
   if (!data.email) {
     errors.push('email is required');
-  } else if (typeof data.email !== 'string') {
-    errors.push('Email must be a string');
-  }  else if (!/^\S+@\S+\.\S+$/.test(data.email)) {
+  } 
+ else if (!/^\S+@\S+\.\S+$/.test(data.email)) {
     errors.push('Email must be valid');
   }
   if (!data.password) {
     errors.push('password is required');
-  } else if (typeof data.password !== 'string') {
-    errors.push('password must be a string');
-  } else if (data.password.length < 8) {
+  }  else if (data.password.length < 8) {
     errors.push('password must be at least 8 characters long');
   }
   if (errors.length > 0) {
